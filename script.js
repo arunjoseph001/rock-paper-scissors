@@ -10,6 +10,7 @@ const mainClass = document.querySelector(".main");
 const mainGame = document.querySelector(".game");
 const restart = document.querySelector("button");
 const clickImages = document.querySelector(".image");
+const images = document.querySelectorAll("img");
 
 function computerPlay() {
   // randomly return either ‘Rock’, ‘Paper’ or ‘Scissors’.
@@ -49,15 +50,17 @@ function game(event) {
     return;
   }
   computerSelection = computerPlay();
-  scores[0].innerText = computerSelection;
+  scores[0].innerText = playerSelection;
+  scores[1].innerText = computerSelection;
   console.log("Computer choose " + computerSelection);
   console.log("Player choose " + playerSelection);
   winner = playRound(playerSelection, computerSelection);
   console.log("winner is " + winner);
-  scores[1].innerText = playerScore;
-  scores[2].innerText = computerScore;
+  scores[2].innerText = winner;
+  scores[3].innerText = playerScore;
+  scores[4].innerText = computerScore;
   console.log("scores are " + playerScore + " and " + computerScore);
-  if(playerScore==5 || computerScore==5){
+  if (playerScore == 5 || computerScore == 5) {
     gameOver();
   }
 }
@@ -72,6 +75,7 @@ restart.addEventListener("click", () => {
   toggleDisplay();
   playerScore = 0;
   computerScore = 0;
+  toggleImages();
 });
 
 clickImages.addEventListener("click", game);
@@ -81,8 +85,14 @@ const toggleDisplay = () => {
   mainGame.classList.toggle("display");
 };
 
-const gameOver=()=>{
-  // need to stop game
-  clickImages.removeEventListener("click", game);
+const toggleImages = () => {
+  images.forEach(image => {
+    image.classList.toggle("focal");
+  });
+};
 
-}
+const gameOver = () => {
+  // need to stop game
+  toggleImages();
+  clickImages.removeEventListener("click", game);
+};
